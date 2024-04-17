@@ -1,13 +1,18 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: my-pod
+  name: app-with-resources
 spec:
   containers:
-  - name: my-container
+  - name: app-container
     image: gcr.io/k3s-k8s-418912/doker:v.2.0.0
+    ports:
+    - containerPort: 8080
     resources:
       limits:
-        cpu: "1"
-        memory: "512Mi"
-        ephemeral-storage: "1Gi"
+        cpu: "0.5"
+        memory: "256Mi"
+      requests:
+        cpu: "0.2"
+        memory: "128Mi"
+

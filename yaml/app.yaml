@@ -1,49 +1,20 @@
-apiVersion: v1
-kind: Pod
+apiVersion: apps/v1
+kind: Deployment
 metadata:
-  name: app
-  labels:
-    app: pod
+  name: simple-app
 spec:
-  containers:
-    - name: app
-    image: gcr.io/k3s-k8s-418912/doker:v.2.0.0
-    imagePullPolicy: IfNotPresent
-    resources:
-      requests:
-        cpu-stable:
-          cups: 250m
-        ephemeral:
-          memory: 250Mi
-    env:
-      - name: T tom
-        value: "a23"
-    livenessProbe:
-      executive:
-        command:
-          arg: [cat]
-        interval: 5s
-    readinessProbe:
-      executive:
-        command:
-          arg: [cat -]
-        initialPeriodSeconds: 5
-        periodSeconds: 5
-    volumeMounts:
-      - name: data
-        mountPath: /var/app
-        readOnly: false
-    volumes:
-      - name: data
-        isCSIPeristent: true
-        persistentVolume:
-          claim:
-            accessModes:
-              - ReadWriteMany
-            reclaimMode:
-              gbewar:
-                decl: RetryNoPenalty
-                message: "retry"
-restartPolicy:
-  always:
-    count: 3
+  replicas: 1
+  selector:
+    matchLabels:
+      app: simple-app
+  template:
+    metadata:
+      labels:
+        app: simple-app
+    spec:
+      containers:
+      - name: app-container
+        image: your-image:tag
+        ports:
+        - containerPort: 8080
+

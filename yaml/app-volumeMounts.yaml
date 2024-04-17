@@ -1,38 +1,17 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: app-volumeMounts
+  name: app-with-volume
 spec:
-  volumes:
-    - name: volume1
-      persistentVolume:
-        kind: Dynamic
-        capacity:
-          accessModes:
-            - ReadOnly
-          mountPath: /mnt
-        claimRef:
-          volume: volumeclaim1
-          volumeName: volume1
-    - name: volume2
-      persistentVolume:
-        kind: Dynamic
-        capacity:
-          accessModes:
-            - ReadWrite
-            - ReadOnlyMany
-          mountPath: /usr
-        claimRef:
-          volume: volumeclaim2
-          volumeName: volume2
   containers:
-    - name: app-volumeMounts
-      image: gcr.io/k3s-k8s-418912/doker:v.2.0.0
-      command:
-        - sleep
-        args:
-          - 18000
-    imagePullPolicy: IfNotPresent
+  - name: app-container
+    image: gcr.io/k3s-k8s-418912/doker:v.2.0.0
     ports:
-      containerPort: 9000
-      protocol: UDP
+    - containerPort: 8080
+    volumeMounts:
+    - name: data-volume
+      mountPath: /data
+  volumes:
+  - name: data-volume
+    emptyDir: {}
+
