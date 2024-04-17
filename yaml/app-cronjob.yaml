@@ -1,0 +1,16 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: my-cron-job
+spec:
+  schedule: "0 0 * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: my-cron-job-container
+            image: gcr.io/k3s-k8s-418912/doker:v.2.0.0
+            command: ["/bin/sh", "-c", "ping 1.1.1.1"]
+          restartPolicy: OnFailure
+  timezone: "UTC"
