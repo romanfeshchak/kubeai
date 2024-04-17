@@ -1,18 +1,15 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: app-with-resources
+  name: app-resources
 spec:
   containers:
-  - name: app-container
-    image: gcr.io/k3s-k8s-418912/doker:v.2.0.0
-    ports:
-    - containerPort: 8080
+  - name: app-resources
+    image: alpine
     resources:
       limits:
-        cpu: "0.5"
-        memory: "256Mi"
+        cpu: "1"
+        memory: "512Mi"
       requests:
-        cpu: "0.2"
+        cpu: "0.7"
         memory: "128Mi"
-
